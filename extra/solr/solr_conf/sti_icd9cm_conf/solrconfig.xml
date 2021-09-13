@@ -1,0 +1,391 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<config>
+
+  <luceneMatchVersion>6.3.0</luceneMatchVersion>
+
+  <!-- <lib/> directives can be used to instruct Solr to load any Jars
+       identified and use them -->
+  <lib dir="${solr.install.dir:../../../..}/contrib/extraction/lib" regex=".*\.jar" />
+  <lib dir="${solr.install.dir:../../../..}/dist/" regex="solr-cell-\d.*\.jar" />
+
+  <lib dir="${solr.install.dir:../../../..}/contrib/clustering/lib/" regex=".*\.jar" />
+  <lib dir="${solr.install.dir:../../../..}/dist/" regex="solr-clustering-\d.*\.jar" />
+
+  <lib dir="${solr.install.dir:../../../..}/contrib/langid/lib/" regex=".*\.jar" />
+  <lib dir="${solr.install.dir:../../../..}/dist/" regex="solr-langid-\d.*\.jar" />
+
+  <lib dir="${solr.install.dir:../../../..}/contrib/velocity/lib" regex=".*\.jar" />
+  <lib dir="${solr.install.dir:../../../..}/dist/" regex="solr-velocity-\d.*\.jar" />
+  
+  <!-- Filtri e analizzatori custom per STI -->
+  <lib dir="${solr.install.dir:../../../..}/sti-extra" regex=".*\.jar" />
+  
+  <!-- Data Directory -->
+  <dataDir>${sti.index.location.icd9cm}</dataDir>
+
+  <directoryFactory name="DirectoryFactory" 
+                    class="${solr.directoryFactory:solr.NRTCachingDirectoryFactory}"/>
+
+  <!-- The CodecFactory for defining the format of the inverted index. -->
+  <codecFactory class="solr.SchemaCodecFactory"/>
+
+  <!-- Index Config -->
+  <indexConfig>
+    
+    <!-- LockFactory -->
+    <lockType>${solr.lock.type:native}</lockType>
+
+    <!-- Lucene Infostream -->
+     <infoStream>true</infoStream>
+  </indexConfig>
+
+
+  <!-- JMX -->
+  <jmx />
+
+  <!-- The default high-performance update handler -->
+  <updateHandler class="solr.DirectUpdateHandler2">
+
+    <updateLog>
+      <str name="dir">${solr.ulog.dir:}</str>
+      <int name="numVersionBuckets">${solr.ulog.numVersionBuckets:65536}</int>
+    </updateLog>
+ 
+    <!-- AutoCommit -->
+     <autoCommit> 
+       <maxTime>${solr.autoCommit.maxTime:15000}</maxTime> 
+       <openSearcher>false</openSearcher> 
+     </autoCommit>
+
+     <autoSoftCommit> 
+       <maxTime>${solr.autoSoftCommit.maxTime:-1}</maxTime> 
+     </autoSoftCommit>
+
+  </updateHandler>
+
+  <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+       Query section - these settings control query time things like caches
+       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+  <query>
+    
+    <maxBooleanClauses>1024</maxBooleanClauses>
+
+    <!-- Slow Query Threshold (in millis) --> 
+    <slowQueryThresholdMillis>-1</slowQueryThresholdMillis>
+
+
+    <!-- Filter Cache -->
+    <filterCache class="solr.FastLRUCache"
+                 size="512"
+                 initialSize="512"
+                 autowarmCount="0"/>
+
+    <!-- Query Result Cache -->
+    <queryResultCache class="solr.LRUCache"
+                     size="512"
+                     initialSize="512"
+                     autowarmCount="0"/>
+   
+    <!-- Document Cache -->
+    <documentCache class="solr.LRUCache"
+                   size="512"
+                   initialSize="512"
+                   autowarmCount="0"/>
+    
+    <!-- custom cache currently used by block join --> 
+    <cache name="perSegFilter"
+      class="solr.search.LRUCache"
+      size="10"
+      initialSize="0"
+      autowarmCount="10"
+      regenerator="solr.NoOpRegenerator" />
+
+    <!-- Lazy Field Loading -->
+    <enableLazyFieldLoading>true</enableLazyFieldLoading>
+
+    <!-- Result Window Size -->
+   <queryResultWindowSize>20</queryResultWindowSize>
+
+   <!-- Maximum number of documents to cache for any entry in the
+        queryResultCache. 
+     -->
+   <queryResultMaxDocsCached>200</queryResultMaxDocsCached>
+
+   <!-- Use Cold Searcher -->
+   <useColdSearcher>false</useColdSearcher>
+
+    <!-- Max Warming Searchers -->
+    <maxWarmingSearchers>2</maxWarmingSearchers>
+
+  </query>
+
+
+  <!-- Request Dispatcher -->
+  <requestDispatcher handleSelect="false" >
+    <!-- Request Parsing --> 
+    <requestParsers enableRemoteStreaming="true" 
+                    multipartUploadLimitInKB="2048000"
+                    formdataUploadLimitInKB="2048"
+                    addHttpRequestToContext="false"/>
+
+    <!-- HTTP Caching -->
+    <httpCaching never304="true" />
+    <!--
+       <httpCaching never304="true" >
+         <cacheControl>max-age=30, public</cacheControl> 
+       </httpCaching>
+
+       <httpCaching lastModifiedFrom="openTime"
+                    etagSeed="Solr">
+         <cacheControl>max-age=30, public</cacheControl> 
+       </httpCaching>
+      -->
+  </requestDispatcher>
+
+  <!-- SearchHandler -->
+  <requestHandler name="/select" class="solr.SearchHandler">
+    <!-- default values for query parameters can be specified, these
+         will be overridden by parameters in the request
+      -->
+     <lst name="defaults">
+       <str name="echoParams">explicit</str>
+       <str name="wt">json</str>
+       <str name="indent">true</str>
+       <int name="rows">10</int>
+       <bool name="preferLocalShards">false</bool>
+     </lst>
+    
+    </requestHandler>
+
+  <!-- A request handler that returns indented JSON by default -->
+  <requestHandler name="/query" class="solr.SearchHandler">
+     <lst name="defaults">
+       <str name="echoParams">explicit</str>
+       <str name="wt">json</str>
+       <str name="indent">true</str>
+       <str name="df">ICD9CM_CODE</str>
+       
+       <str name="defType">edismax</str>
+       <str name="qf">
+          ICD9CM_CODE^5.0 CODE_RANGE^4.0
+          DESCRIPTION_it^3.5 DESCRIPTION_en^3.0
+          OTHER_DESCRIPTION_it^2.5 OTHER_DESCRIPTION_en^2.0
+          <!-- 
+          NOTE_it^1.5 NOTE_en^1.0
+          text^1.5
+           -->
+       </str>
+       <str name="rows">20</str>
+     </lst>
+     <!-- 
+     <lst name="invariants">
+	   <str name="defType">autophrasingParser</str>
+	 </lst>
+	  -->
+  </requestHandler>
+  <!-- 
+  <queryParser name="autophrasingParser"
+               class="com.lucidworks.analysis.AutoPhrasingQParserPlugin" >
+    <str name="phrases">lang_it/autophrases.txt</str>
+    <str name="replaceWhitespaceWith">_</str>
+  </queryParser>
+  -->
+  
+  <!-- A Robust Example -->
+  <!--
+  <requestHandler name="/browse" class="solr.SearchHandler">
+     <lst name="defaults">
+       <str name="echoParams">explicit</str>
+       -->
+
+       <!-- Query settings -->
+       <!-- 
+       <str name="defType">edismax</str>
+       <str name="qf">
+          text^0.5 features^1.0 name^1.2 sku^1.5 id^10.0 manu^1.1 cat^1.4
+          title^10.0 description^5.0 keywords^5.0 author^2.0 resourcename^1.0
+       </str>
+       <str name="mm">100%</str>
+       <str name="q.alt">*:*</str>
+       <str name="rows">10</str>
+       <str name="fl">*,score</str>
+
+       <str name="mlt.qf">
+         text^0.5 features^1.0 name^1.2 sku^1.5 id^10.0 manu^1.1 cat^1.4
+         title^10.0 description^5.0 keywords^5.0 author^2.0 resourcename^1.0
+       </str>
+       <str name="mlt.fl">text,features,name,sku,id,manu,cat,title,description,keywords,author,resourcename</str>
+       <int name="mlt.count">3</int>
+       -->
+
+       <!-- Faceting defaults -->
+       <!--
+       <str name="facet">on</str>
+       <str name="facet.missing">true</str>
+       <str name="facet.field">cat</str>
+       <str name="facet.field">manu_exact</str>
+       <str name="facet.field">content_type</str>
+       <str name="facet.field">author_s</str>
+       <str name="facet.query">ipod</str>
+       <str name="facet.query">GB</str>
+       <str name="facet.mincount">1</str>
+       <str name="facet.pivot">cat,inStock</str>
+       <str name="facet.range.other">after</str>
+       <str name="facet.range">price</str>
+       <int name="f.price.facet.range.start">0</int>
+       <int name="f.price.facet.range.end">600</int>
+       <int name="f.price.facet.range.gap">50</int>
+       <str name="facet.range">popularity</str>
+       <int name="f.popularity.facet.range.start">0</int>
+       <int name="f.popularity.facet.range.end">10</int>
+       <int name="f.popularity.facet.range.gap">3</int>
+       <str name="facet.range">manufacturedate_dt</str>
+       <str name="f.manufacturedate_dt.facet.range.start">NOW/YEAR-10YEARS</str>
+       <str name="f.manufacturedate_dt.facet.range.end">NOW</str>
+       <str name="f.manufacturedate_dt.facet.range.gap">+1YEAR</str>
+       <str name="f.manufacturedate_dt.facet.range.other">before</str>
+       <str name="f.manufacturedate_dt.facet.range.other">after</str>
+       -->
+
+       <!-- Highlighting defaults -->
+       <!-- 
+       <str name="hl">on</str>
+       <str name="hl.fl">content features title name</str>
+       <str name="hl.preserveMulti">true</str>
+       <str name="hl.encoder">html</str>
+       <str name="hl.simple.pre">&lt;b&gt;</str>
+       <str name="hl.simple.post">&lt;/b&gt;</str>
+       <str name="f.title.hl.fragsize">0</str>
+       <str name="f.title.hl.alternateField">title</str>
+       <str name="f.name.hl.fragsize">0</str>
+       <str name="f.name.hl.alternateField">name</str>
+       <str name="f.content.hl.snippets">3</str>
+       <str name="f.content.hl.fragsize">200</str>
+       <str name="f.content.hl.alternateField">content</str>
+       <str name="f.content.hl.maxAlternateFieldLength">750</str>
+       -->
+
+       <!-- Spell checking defaults -->
+       <!-- 
+       <str name="spellcheck">on</str>
+       <str name="spellcheck.extendedResults">false</str>       
+       <str name="spellcheck.count">5</str>
+       <str name="spellcheck.alternativeTermCount">2</str>
+       <str name="spellcheck.maxResultsForSuggest">5</str>       
+       <str name="spellcheck.collate">true</str>
+       <str name="spellcheck.collateExtendedResults">true</str>  
+       <str name="spellcheck.maxCollationTries">5</str>
+       <str name="spellcheck.maxCollations">3</str>           
+     </lst>
+       -->
+
+     <!-- append spellchecking to our list of components -->
+    <!--
+     <arr name="last-components">
+       <str>spellcheck</str>
+     </arr>
+  </requestHandler>
+  -->
+
+  <initParams path="/update/**,/query,/select">
+    <lst name="defaults">
+      <str name="df">text</str>
+    </lst>
+  </initParams>
+
+  <!-- The following are implicitly added
+  <requestHandler name="/update/json" class="solr.UpdateRequestHandler">
+        <lst name="defaults">
+         <str name="stream.contentType">application/json</str>
+       </lst>
+  </requestHandler>
+  <requestHandler name="/update/csv" class="solr.UpdateRequestHandler">
+        <lst name="defaults">
+         <str name="stream.contentType">application/csv</str>
+       </lst>
+  </requestHandler>
+  -->
+
+  <!-- Search Components
+
+       By default, the following components are available:
+       
+       <searchComponent name="query"     class="solr.QueryComponent" />
+       <searchComponent name="facet"     class="solr.FacetComponent" />
+       <searchComponent name="mlt"       class="solr.MoreLikeThisComponent" />
+       <searchComponent name="highlight" class="solr.HighlightComponent" />
+       <searchComponent name="stats"     class="solr.StatsComponent" />
+       <searchComponent name="debug"     class="solr.DebugComponent" />
+     -->
+  
+   <!-- Spell Check
+        http://wiki.apache.org/solr/SpellCheckComponent
+     -->
+  <!--
+  <searchComponent name="spellcheck" class="solr.SpellCheckComponent">
+   ..........
+  -->
+   
+  <!-- The SuggestComponent
+       http://archive.apache.org/dist/lucene/solr/ref-guide
+    -->
+  <!-- 
+  <searchComponent name="suggest" class="solr.SuggestComponent">
+   ..........
+  --> 
+
+  <!-- Term Vector Component
+       http://wiki.apache.org/solr/TermVectorComponent
+    -->
+  <!-- 
+  <searchComponent name="tvComponent" class="solr.TermVectorComponent"/>
+   ..........
+  --> 
+  
+  <!-- Terms Component
+       http://wiki.apache.org/solr/TermsComponent
+    -->
+  <!--
+  <searchComponent name="terms" class="solr.TermsComponent"/>
+   ..........
+  -->
+
+  <!-- Query Elevation Component
+       http://wiki.apache.org/solr/QueryElevationComponent
+    -->
+  <!--
+  <searchComponent name="elevator" class="solr.QueryElevationComponent" >
+   ..........
+  -->
+
+  <!-- Highlighting Component
+       http://wiki.apache.org/solr/HighlightingParameters
+    -->
+  <!--
+  <searchComponent class="solr.HighlightComponent" name="highlight">
+   ..........
+  -->
+
+  <!-- Update Processors -->
+  <schemaFactory class="ClassicIndexSchemaFactory"/>
+
+  <!-- Deduplication -->
+  <updateRequestProcessorChain name="dedupe">
+    <processor class="solr.processor.SignatureUpdateProcessorFactory">
+       <bool name="enabled">true</bool>
+       <str name="signatureField">id</str>
+       <bool name="overwriteDupes">true</bool>
+       <str name="fields">ICD9CM_ID,VERSION</str>
+       <str name="signatureClass">solr.processor.Lookup3Signature</str>
+    </processor>
+    <processor class="solr.LogUpdateProcessorFactory" />
+    <processor class="solr.RunUpdateProcessorFactory" />
+  </updateRequestProcessorChain>
+  
+  <queryResponseWriter name="json" class="solr.JSONResponseWriter">
+     <!-- If you expect a MIME type of "application/json" just remove this override. -->
+    <str name="content-type">text/plain; charset=UTF-8</str>
+  </queryResponseWriter>
+    
+</config>

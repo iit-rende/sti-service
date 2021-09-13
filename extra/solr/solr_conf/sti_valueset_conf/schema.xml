@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<schema name="example" version="1.6">
+  <uniqueKey>id</uniqueKey>
+  
+  <!-- TIPI DI DEFAULT PRESI DALLA CONFIGURAZIONE BASE DI SOLR -->
+  <fieldType name="boolean" class="solr.BoolField" sortMissingLast="true"/>
+  <fieldType name="date" class="solr.TrieDateField" positionIncrementGap="0" docValues="true" precisionStep="0"/>
+  <fieldType name="double" class="solr.TrieDoubleField" positionIncrementGap="0" docValues="true" precisionStep="0"/>
+  <fieldType name="float" class="solr.TrieFloatField" positionIncrementGap="0" docValues="true" precisionStep="0"/>
+  <fieldType name="ignored" class="solr.StrField" indexed="false" stored="false" multiValued="true"/>
+  <fieldType name="int" class="solr.TrieIntField" positionIncrementGap="0" docValues="true" precisionStep="0"/>
+  <fieldType name="long" class="solr.TrieLongField" positionIncrementGap="0" docValues="true" precisionStep="0"/>
+  <fieldType name="lowercase" class="solr.TextField" positionIncrementGap="100">
+    <analyzer>
+      <tokenizer class="solr.KeywordTokenizerFactory"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+    </analyzer>
+  </fieldType>
+  
+  <fieldType name="string" class="solr.StrField" sortMissingLast="true"/>
+  
+  <!-- UTILIZZARE I SEGUENTI TIPI PER OTTIMIZZARE LE PERFORMANCES DELLE RICERCHE -->
+  <fieldType name="tdate" class="solr.TrieDateField" positionIncrementGap="0" docValues="true" precisionStep="6"/>
+  <fieldType name="tdouble" class="solr.TrieDoubleField" positionIncrementGap="0" docValues="true" precisionStep="8"/>
+  <fieldType name="tfloat" class="solr.TrieFloatField" positionIncrementGap="0" docValues="true" precisionStep="8"/>
+  <fieldType name="tint" class="solr.TrieIntField" positionIncrementGap="0" docValues="true" precisionStep="8"/>
+  <fieldType name="tlong" class="solr.TrieLongField" positionIncrementGap="0" docValues="true" precisionStep="8"/>
+  
+  <!-- CAMPI OTTIMIZZATI PER LE LINGUE EN/IT -->
+  <fieldType name="text_en" class="solr.TextField" positionIncrementGap="100">
+    <analyzer type="index">
+      <tokenizer class="solr.StandardTokenizerFactory"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+      
+      <filter class="solr.StopFilterFactory" words="lang_en/stopwords_en.txt" ignoreCase="true" />	
+      <filter class="solr.EnglishPossessiveFilterFactory"/>
+      <!-- 
+      <filter class="solr.KeywordMarkerFilterFactory" protected="lang_en/protwords.txt"/>
+      -->
+      <filter class="solr.PorterStemFilterFactory"/>
+    </analyzer>
+    <analyzer type="query">
+      <tokenizer class="solr.StandardTokenizerFactory"/>
+      <filter class="solr.LowerCaseFilterFactory"/>
+      
+      <filter class="solr.SynonymFilterFactory" synonyms="lang_en/synonyms_en.txt"
+      			expand="true" ignoreCase="true" />
+      			
+      <filter class="solr.StopFilterFactory" words="lang_en/stopwords_en.txt" ignoreCase="true"/>
+      <filter class="solr.EnglishPossessiveFilterFactory"/>
+      <!-- 
+      <filter class="solr.KeywordMarkerFilterFactory" protected="lang_en/protwords.txt"/>
+      -->
+      <filter class="solr.PorterStemFilterFactory"/>
+    </analyzer>
+  </fieldType>
+  
+  <fieldType name="text_it" class="solr.TextField" positionIncrementGap="100">
+    <analyzer type="index">
+      <filter class="solr.LowerCaseFilterFactory"/>
+      
+      <filter class="solr.SynonymFilterFactory" synonyms="lang_it/synonyms_it.txt"
+      			expand="true" ignoreCase="true" />
+      
+      <tokenizer class="solr.StandardTokenizerFactory"/>
+      
+      <filter class="solr.SynonymFilterFactory" synonyms="lang_it/synonyms_it.txt"
+      			expand="true" ignoreCase="true" />
+      
+      <!-- Problema sinonimi tipo "attacco di cuore, infarto miocardico" -->
+      <!--
+      <filter class="com.lucidworks.analysis.AutoPhrasingTokenFilterFactory"
+            phrases="lang_it/autophrases.txt" includeTokens="true"
+            replaceWhitespaceWith="x" />
+      <filter class="solr.SynonymFilterFactory" synonyms="lang_it/synonyms_it.txt"
+      			expand="true" ignoreCase="true" />
+      -->
+      
+      <filter class="solr.ElisionFilterFactory" articles="lang_it/contractions_it.txt" ignoreCase="true"/>
+      <filter class="solr.StopFilterFactory" format="snowball" words="lang_it/stopwords_it.txt" ignoreCase="true"/>
+      
+      <filter class="solr.ItalianLightStemFilterFactory"/>
+      <!-- more aggressive: <filter class="solr.SnowballPorterFilterFactory" language="Italian"/> -->
+    </analyzer>
+    <analyzer type="query">
+      <filter class="solr.LowerCaseFilterFactory"/>
+      
+      <filter class="solr.SynonymFilterFactory" synonyms="lang_it/synonyms_it.txt"
+      			expand="true" ignoreCase="true" />
+      
+      <tokenizer class="solr.StandardTokenizerFactory"/>
+      
+      <filter class="solr.SynonymFilterFactory" synonyms="lang_it/synonyms_it.txt"
+      			expand="true" ignoreCase="true" />
+      
+      <filter class="solr.ElisionFilterFactory" articles="lang_it/contractions_it.txt" ignoreCase="true"/>
+      <filter class="solr.StopFilterFactory" format="snowball" words="lang_it/stopwords_it.txt" ignoreCase="true" />
+      
+      <filter class="solr.ItalianLightStemFilterFactory"/>
+      <!-- more aggressive: <filter class="solr.SnowballPorterFilterFactory" language="Italian"/> -->
+    </analyzer>
+  </fieldType>
+  
+  
+  	<!-- case insensitive  -->
+	<fieldType name="string_ci" class="solr.TextField">
+	  <analyzer type="index">
+		<tokenizer class="solr.WhitespaceTokenizerFactory"/>
+		<filter class="solr.LowerCaseFilterFactory"/>
+	  </analyzer>
+	  <analyzer type="query">
+		<tokenizer class="solr.WhitespaceTokenizerFactory"/>
+		<filter class="solr.LowerCaseFilterFactory"/>
+	  </analyzer>
+	</fieldType>
+  
+  <!-- CAMPI PER IL MODELLO LOCALE -->
+  <!-- CAMPI FISSI -->
+  <field name="id" type="string" indexed="true" required="true" stored="true" multiValued="false" />
+  <field name="_version_" type="long" indexed="false" stored="false"/>
+   
+  <field name="NAME" type="string_ci" indexed="true" stored="true" multiValued="false" />
+  <field name="DESCRIPTION" type="text_it" indexed="true" stored="true" multiValued="false" />
+  <field name="VERSION_NAME" type="string_ci" indexed="true" stored="true" multiValued="false" />
+  <field name="VERSION_DESCRIPTION" type="string_ci" indexed="true" stored="true" multiValued="false" />
+  <field name="VERSION" type="text_it" indexed="true" stored="true" multiValued="false" />
+  <field name="RELEASE_DATE" type="tdate" indexed="true" stored="true" multiValued="false" />
+  <field name="CS_OID" type="string_ci" indexed="true" stored="true" multiValued="false" />
+  <field name="DOMAIN" type="string_ci" indexed="true" stored="true" multiValued="false" />
+  <field name="ORGANIZATION" type="string_ci" indexed="true" stored="true" multiValued="false" />
+  <field name="IS_LEAF" type="boolean" indexed="true" stored="true" multiValued="false" />
+  <field name="IS_LAST_VERSION" type="boolean" indexed="true" stored="true" multiValued="false" />
+  <field name="HAS_ASSOCIATIONS" type="boolean" indexed="true" stored="true" multiValued="false" />
+  <field name="SUBCLASS_OF" type="string" indexed="true" stored="true" multiValued="false" />
+  <field name="HAS_ONTOLOGY" type="string" indexed="true" stored="true" multiValued="false" />
+  <field name="ONTOLOGY_NAME" type="string_ci" indexed="true" stored="true" multiValued="false" />
+  
+   <!-- CAMPI FISSI DEL CSV -->
+  <field name="VALUESET_CODE" type="string" indexed="true" stored="true" multiValued="false" />
+  <field name="VALUESET_DESCRIPTION_it" type="text_it" indexed="true" stored="true" multiValued="false" />
+  <field name="VALUESET_DESCRIPTION_en" type="text_en" indexed="true" stored="true" multiValued="false" />
+ 
+  <!-- CAMPI DINAMICI DEL CSV (in fase di creazione del campo verrà aggiunto il suffisso per la lingua _it o _en)-->
+  <dynamicField name="DF_S_*" type="string_ci" indexed="true"  stored="true"/>
+  <dynamicField name="DF_D_*" type="tdate" indexed="true"  stored="true"/>
+  <dynamicField name="DF_N_*" type="tdouble" indexed="true"  stored="true"/>
+  <dynamicField name="DF_M_*" type="string" indexed="true"  stored="true"/>
+
+  <field name="text" type="text_it" indexed="true" stored="false" multiValued="true"/>
+  <copyField source="*" dest="text"/>
+</schema>
