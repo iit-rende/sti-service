@@ -1,0 +1,32 @@
+package it.linksmt.cts2.plugin.sti.importer.valueset;
+
+public interface ValueSetFields {
+
+	String VALUESET_INDEX_SUFFIX_NAME = "valueset";
+	
+	String NAME = "NAME";
+	String DESCRIPTION = "DESCRIPTION";
+	String VERSION_NAME = "VERSION_NAME";
+	String VERSION_DESCRIPTION = "VERSION_DESCRIPTION";
+	String VERSION = "VERSION";
+	String RELEASE_DATE = "RELEASE_DATE";
+	String CS_OID = "CS_OID";
+	String DOMAIN = "DOMAIN";
+	String ORGANIZATION = "ORGANIZATION";
+	String IS_LEAF = "IS_LEAF";
+	String IS_LAST_VERSION = "IS_LAST_VERSION";
+	String HAS_ASSOCIATIONS = "HAS_ASSOCIATIONS";
+	String VALUESET_CODE = "VALUESET_CODE";
+//	String VALUESET_DESCRIPTION = "VALUESET_DESCRIPTION";
+	String VALUESET_DESCRIPTION_it = "VALUESET_DESCRIPTION_it";
+	String VALUESET_DESCRIPTION_en = "VALUESET_DESCRIPTION_en";
+	String SUBCLASS_OF = "SUBCLASS_OF";
+	
+	String CS_TYPE_MAPPING = "TYPE_MAPPING";
+	String CS_CODIFICATION_MAPPING = "CODIFICATION_MAPPING";
+	
+	String DF_S_ = "DF_S_*";
+	String DF_D_ = "DF_D_*";
+	String DF_N_ = "DF_N_*";
+	String DF_M_ = "DF_M_*";
+}

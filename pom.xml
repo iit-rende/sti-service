@@ -1,0 +1,207 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>edu.mayo.cts2.framework</groupId>
+		<artifactId>cts2-base-service-plugin</artifactId>
+		<version>1.2.0.FINAL</version>
+		<relativePath>../cts2-framework-1.2.0.FINAL/cts2-base-service-plugin/pom.xml</relativePath>
+	</parent>
+
+	<groupId>it.linksmt.cts2.plugin</groupId>
+	<artifactId>sti-service</artifactId>
+	<version>1.0</version>
+	<packaging>bundle</packaging>
+
+	<name>sti-service</name>
+	<description>An Example CTS2 Service Implementation</description>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<sti.cts2.framework.version>1.2.0.FINAL</sti.cts2.framework.version>
+		<sti.cts2.spring.version>3.2.3.RELEASE</sti.cts2.spring.version>
+		<sti.cts2.hibernate.version>4.1.9.Final</sti.cts2.hibernate.version>
+	</properties>
+
+	<dependencies>
+
+		<!-- CTS FRAMEWORK -->
+		<dependency>
+			<groupId>edu.mayo.cts2.framework</groupId>
+			<artifactId>cts2-service</artifactId>
+			<version>${sti.cts2.framework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>edu.mayo.cts2.framework</groupId>
+			<artifactId>cts2-core</artifactId>
+			<version>${sti.cts2.framework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>edu.mayo.cts2.framework</groupId>
+			<artifactId>cts2-plugin-util</artifactId>
+			<version>${sti.cts2.framework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>edu.mayo.cts2.framework</groupId>
+			<artifactId>cts2-webapp-rest-extensions</artifactId>
+			<version>${sti.cts2.framework.version}</version>
+		</dependency>
+
+		<!-- HIBERNATE -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${sti.cts2.hibernate.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-c3p0</artifactId>
+			<version>${sti.cts2.hibernate.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate.common</groupId>
+			<artifactId>hibernate-commons-annotations</artifactId>
+			<version>4.0.1.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>9.3-1102-jdbc41</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.5</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<!-- CSV reader -->
+		<dependency>
+			<groupId>com.opencsv</groupId>
+			<artifactId>opencsv</artifactId>
+			<version>3.8</version>
+		</dependency>
+
+		<!-- Utility -->
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+
+		<!-- <dependency> -->
+		<!-- <groupId>com.jayway.jsonpath</groupId> -->
+		<!-- <artifactId>json-path</artifactId> -->
+		<!-- <version>2.4.0</version> -->
+		<!-- </dependency> -->
+
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20180130</version>
+		</dependency>
+
+
+	</dependencies>
+
+	<build>
+		<plugins>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.3.2</version>
+				<configuration>
+					<source>1.7</source>
+					<target>1.7</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
+					<fork>true</fork>
+					<meminitial>128m</meminitial>
+					<maxmem>512m</maxmem>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.2.1</version>
+				<configuration>
+					<finalName>${project.artifactId}</finalName>
+					<descriptors>
+						<descriptor>src/assemble/projectDistribute.xml</descriptor>
+					</descriptors>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id> <!-- this is used for inheritance merges -->
+						<phase>package</phase> <!-- bind to the packaging phase -->
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.felix</groupId>
+				<artifactId>maven-bundle-plugin</artifactId>
+				<extensions>true</extensions>
+				<configuration>
+					<instructions>
+						<Import-Package>
+							edu.mayo.cts2.framework.model.service.association,
+							edu.mayo.cts2.framework.model.service.codesystem,
+							edu.mayo.cts2.framework.model.service.codesystemversion,
+							edu.mayo.cts2.framework.model.service.conceptdomain,
+							edu.mayo.cts2.framework.model.service.conceptdomainbinding,
+							edu.mayo.cts2.framework.model.service.entitydescription,
+							edu.mayo.cts2.framework.model.service.map,
+							edu.mayo.cts2.framework.model.service.mapentry,
+							edu.mayo.cts2.framework.model.service.mapversion,
+							edu.mayo.cts2.framework.model.service.statement,
+							edu.mayo.cts2.framework.model.service.valueset,
+							edu.mayo.cts2.framework.model.service.valuesetdefinition,
+							edu.mayo.cts2.framework.service.provider,
+							edu.mayo.cts2.framework.webapp.rest.extensions.controller,
+							org.w3c.dom.traversal,
+							*;resolution:=optional
+						</Import-Package>
+						<Embed-Transitive>true</Embed-Transitive>
+						<Embed-Dependency>
+							cts2-plugin-util, gson,
+							hibernate-core,
+							hibernate-c3p0, c3p0, javassist, antlr,
+							hibernate-commons-annotations, hibernate-jpa-2.0-api,
+							jboss-logging, jboss-transaction-api_1.1_spec,
+							postgresql,
+							opencsv, commons-lang3, json, commons-beanutils
+						</Embed-Dependency>
+						<Spring-Context>*;timeout:=60</Spring-Context>
+						<_exportcontents>*</_exportcontents>
+						<_nouses>true</_nouses>
+					</instructions>
+				</configuration>
+			</plugin>
+
+
+		</plugins>
+	</build>
+
+	<repositories>
+		<repository>
+			<id>PostGres-Repo</id>
+			<name>Postgres Repository</name>
+			<url>https://repo1.maven.org/maven2</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</repository>
+	</repositories>
+
+</project>

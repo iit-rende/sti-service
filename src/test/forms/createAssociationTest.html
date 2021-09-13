@@ -1,0 +1,142 @@
+<html>
+  <head>
+    <title>Test Crea Associazione</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    
+    <script src="jquery.js"></script>
+    <script type="text/javascript">
+    
+	    function testDettaglio() {
+	    	$.ajax({
+    			type: "GET",
+    		    url: "http://localhost:8080/cts2framework/codesystem/" + document.getElementById("dettCs").value 
+    		    	+ "/version/"+document.getElementById("dettCsVers").value + "/association/" + 
+    		    	document.getElementById("dettAssocId").value,
+    		    // The key needs to match your method's input parameter (case-sensitive).
+    		    contentType: "application/json; charset=utf-8",
+    		    success: function(data){
+    		    	alert(JSON.stringify(data, null, 2));
+    		    },
+    		    failure: function(errMsg) {
+    		        alert(errMsg);
+    		    }
+    		});
+	    }
+    
+    	function testNuova() {
+    		
+    		var newAssoc = {
+    			"entry": {
+    		        "subject": {
+    		          "namespace": "ICD9-CM",
+    		          "name": "E874.0"
+    		        },
+    		        "predicate": {
+    		          "href": "http://localhost:8080/cts2framework/codesystem/ICD9-CM/version/2007_ita/entity/ICD9-CM:E874.0",
+    		          "namespace": "ICD9-CM",
+    		          "name": "E874"
+    		        },
+    		        "associationQualifier": [
+    		          {
+    		            "predicate": {
+    		              "uri": "forwardName",
+    		              "name": "forwardName"
+    		            },
+    		            "value": [
+    		              {
+    		                "literal": {
+    		                  "value": "Sottoclasse di"
+    		                }
+    		              }
+    		            ]
+    		          },
+    		          {
+    		            "predicate": {
+    		              "uri": "reverseName",
+    		              "name": "reverseName"
+    		            },
+    		            "value": [
+    		              {
+    		                "literal": {
+    		                  "value": "Superclasse di"
+    		                }
+    		              }
+    		            ]
+    		          },
+    		          {
+    		            "predicate": {
+    		              "uri": "associationKind",
+    		              "name": "associationKind"
+    		            },
+    		            "value": [
+    		              {
+    		                "literal": {
+    		                  "value": "3"
+    		                }
+    		              }
+    		            ]
+    		          },
+    		        ],
+    		        "assertedBy": {
+    		          "version": {
+    		            "content": "2007_ita",
+    		          },
+    		          "codeSystem": {
+    		            "content": "ICD9-CM",
+    		          }
+    		        },
+    		      }
+    		};
+    		
+    		$.ajax({
+    			type: "POST",
+    		    url: "http://localhost:8080/cts2framework/association?changesetcontext=new",
+    		    // The key needs to match your method's input parameter (case-sensitive).
+    		    data: JSON.stringify(newAssoc),
+    		    contentType: "application/json; charset=utf-8",
+    		    dataType: "json",
+    		    success: function(data){
+    		    	alert(JSON.stringify(data, null, 2));
+    		    },
+    		    failure: function(errMsg) {
+    		        alert(errMsg);
+    		    }
+    		});
+    	}
+    </script>
+  </head>
+  <body>
+    <h1>Test Crea Associazione</h1>
+    
+    <table>
+       <tr>
+         <td><b>Code System</b></td>
+         <td><input id="dettCs" /></td>
+       </tr>
+       <tr>
+         <td><b>Version</b></td>
+         <td><input id="dettCsVers" /></td>
+       </tr>
+       <tr>
+         <td><b>Association ID</b></td>
+         <td><input id="dettAssocId" /></td>
+       </tr>
+      <tr>
+      	<td>&nbsp;</td>
+        <td><button onclick="testDettaglio()">Dettaglio</button></td>
+       </tr>
+       <tr>
+      	<td colspan="2">&nbsp;</td>
+       </tr>
+       <tr>
+         <td><h2>Crea Nuova</h2></td>
+         <td>&nbsp;</td>
+       </tr>
+       <tr>
+        <td>&nbsp;</td>
+        <td><button onclick="testNuova()">Invia!</button></td>
+      </tr>
+    </table>
+    
+  </body>
+</html>
