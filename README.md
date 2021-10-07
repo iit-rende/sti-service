@@ -1,5 +1,5 @@
-# Sistema Terminologico Integrato (plugin per CTS2 Framework) 
-### sti-service
+# Servizio Terminologico Integrato (plugin per CTS2 Framework) 
+### Nome del modulo:  sti-service
 
 ## Modulo maven contenente il codice di integrazione con il framework cts2
 
@@ -10,7 +10,7 @@ Il progetto rappresenta un plugin (OSGI) installabile nel framework CTS2 attrave
 
 
 ### Descrizione Repository
-Questo reposotory contiene il modulo parent sti-cts2-portlets-build e i seguenti moduli figli
+Questo repositorycontiene il modulo parent sti-cts2-portlets-build e i seguenti moduli figli
 - sti-service[plugin (bundle osgi) per la gestione/importazione delle codifiche]
 
   
@@ -21,7 +21,7 @@ Prima di procedere al download dei sorgenti per il corretto funzionamento occorr
 Per l'installazione degli applicativi si demanda alla documentazione ufficiale
 
 - SO AlmaLinuxOS [https://almalinux.org/it/]
-- JDK 1.7 [https://www.oracle.com/it/java/technologies/javase/javase7-archive-downloads.html]
+- JDK 1.8 [https://www.oracle.com/it/java/technologies/javase/javase8-archive-downloads.html]
 - Postgres 9.6 [https://www.postgresql.org/ftp/source/]
 - solr-6.3.0 [https://archive.apache.org/dist/lucene/solr/]
 - sti-cts2-framework-1.2.0.FINAL [LINK_AL_REPO] [TODO]
@@ -29,7 +29,7 @@ Per l'installazione degli applicativi si demanda alla documentazione ufficiale
   
 
 ## Installazione 
-Per procedere alla corretta installazione dei moduli del presente repository è necessario scaricare e configurare prima i reposotory [sti-cts2-framework-1.2.0.FINAL e sti-service] ed è importante che i moduli stiano nella stessa directory in quanto il presente modulo dipende dal framework.
+Per procedere alla corretta installazione dei moduli del presente repository è necessario scaricare e configurare prima i repository[sti-cts2-framework-1.2.0.FINAL e sti-service] ed è importante che i moduli stiano nella stessa directory in quanto il presente modulo dipende dal framework.
 
 Di seguito la dipendenza nel pom.xml del modulo **sti-service**
 
@@ -42,7 +42,7 @@ Di seguito la dipendenza nel pom.xml del modulo **sti-service**
 
 
 
-Per l'installazione degli applicativi [AlmaLinuxOS, JDK 1.7, Postgres 9.6, liferay-portal-6.2-ce-ga6,solr-6.3.0] si rimanda alla documentazione ufficiale.
+Per l'installazione degli applicativi [AlmaLinuxOS, JDK 1.8, Postgres 9.6, liferay-portal-6.2-ce-ga6,solr-6.3.0] si rimanda alla documentazione ufficiale.
 Per quanto riguarda [framework cts2] l'installazione è descritta nei repository di riferimento.
 
 
@@ -55,13 +55,13 @@ Per il corretto funzionamento del modulo è necessario creare i DB e avviare sol
 
 Schema DB
 
-![DB](screenshot\DB.png)
+![DB](screenshot/DB.png)
 
 
 
 Per quanto riguarda il DB è necessario creare 2 schema. 
 
-Sotto la folder  **..\sti-service\extra\database\DB-DATI-BASE**, sono presenti gli script per la generazione dei 2 schema e il popolamento dei dati relativi alle codifiche di base (**LOINC; ATC-AIC; ICD9-CM**) gestite dal sistema. 
+Sotto la folder  **..\sti-service\extra\database\DB-DATI-BASE**, sono presenti gli script per la generazione dei 2 schema e il popolamento dei dati relativi alle codifiche di base (**LOINC; ATC; AIC; ICD9-CM**) gestite dal sistema. 
 
 Con i seguenti comandi importiamo gli script nel DB postgres.
 
@@ -86,7 +86,7 @@ Le definizioni degli indici vanno copiate dentro solr (in servizio non deve esse
 
 
 
-![](screenshot\path_definizione_indici.png)
+![](screenshot/path_definizione_indici.png)
 
 
 
@@ -114,11 +114,11 @@ Di seguito un esempio di come vengono usate le prop precedentemente definite. I 
 
 
 
-![image-20210909182654185](screenshot\config_index.png)
+![image-20210909182654185](screenshot/config_index.png)
 
 
 
-Nel repository sotto  **"..\sti-service\extra\solr\INDICI-SOLR-DATI-BASE\SOLR_IDX"** è presente un dump degli indici contenente i dati delle codifiche di base (**LOINC; ATC-AIC; ICD9-CM**) relativo al dump del DB **sti-service\extra\database\DB-DATI-BASE**. Quindi i caso di caricamento del DB con i dati di base bisogna prendere anche gli indici SOLR contenenti i dati in modo che all'avvio dell'applicazione sia tutto correttamente funzionante.
+Nel repository sotto  **"..\sti-service\extra\solr\INDICI-SOLR-DATI-BASE\SOLR_IDX"** è presente un dump degli indici contenente i dati delle codifiche di base (**LOINC; ATC; AIC; ICD9-CM**) relativo al dump del DB **sti-service\extra\database\DB-DATI-BASE**. Quindi i caso di caricamento del DB con i dati di base bisogna prendere anche gli indici SOLR contenenti i dati in modo che all'avvio dell'applicazione sia tutto correttamente funzionante.
 
 
 
@@ -133,7 +133,7 @@ ora si può avviare SOLR
 
 Se tutto è andato bene dovremo accedere alla console di solr all'indirizzo (http://HOST:8983/solr/) e verificare che gli indici siano presenti.
 
-![solr](screenshot\solr.png)
+![solr](screenshot/solr.png)
 
 
 
@@ -168,7 +168,7 @@ N.B. in case di conferma spuntare "Start Bundle"
 
 Accesso alla console
 
-![home](screenshot\home.png)
+![home](screenshot/home.png)
 
 
 
@@ -178,13 +178,13 @@ Accesso alla console
 
 Caricamento plugin
 
-![caricamento](screenshot\caricamento.png)
+![caricamento](screenshot/caricamento.png)
 
 
 
 Conferma
 
-![conferma](screenshot\conferma.png)
+![conferma](screenshot/conferma.png)
 
 
 
