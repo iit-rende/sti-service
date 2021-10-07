@@ -10,7 +10,7 @@ Il progetto rappresenta un plugin (OSGI) installabile nel framework CTS2 attrave
 
 
 ### Descrizione Repository
-Questo repositorycontiene il modulo parent sti-cts2-portlets-build e i seguenti moduli figli
+Questo repository contiene il modulo parent sti-cts2-portlets-build e i seguenti moduli figli
 - sti-service[plugin (bundle osgi) per la gestione/importazione delle codifiche]
 
   
@@ -24,7 +24,7 @@ Per l'installazione degli applicativi si demanda alla documentazione ufficiale
 - JDK 1.8 [https://www.oracle.com/it/java/technologies/javase/javase8-archive-downloads.html]
 - Postgres 9.6 [https://www.postgresql.org/ftp/source/]
 - solr-6.3.0 [https://archive.apache.org/dist/lucene/solr/]
-- sti-cts2-framework-1.2.0.FINAL [LINK_AL_REPO] [TODO]
+- sti-cts2-framework-1.2.0.FINAL [https://github.com/iit-rende/sti-cts2-framework] 
 
   
 
