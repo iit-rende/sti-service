@@ -41,12 +41,12 @@ Per procedere alla corretta installazione dei moduli del presente repository è 
 
 Di seguito la dipendenza nel pom.xml del modulo **sti-service**
 
-​	`<parent>
+​	<parent>
 ​		<groupId>edu.mayo.cts2.framework</groupId>
 ​		<artifactId>cts2-base-service-plugin</artifactId>
 ​		<version>1.2.0.FINAL</version>
 ​		<relativePath>../cts2-framework-1.2.0.FINAL/cts2-base-service-plugin/pom.xml</relativePath>
-​	</parent>`
+​	</parent>
 
 
 
@@ -130,9 +130,9 @@ Il download del DB e degli indici SOLR aggiornati con tutte le codifiche è disp
 
 
 
-**..TODO_URL_DOWNLOAD\solr\INDICI-SOLR-FULL\SOLR_IDX"** 
+**..TODO_URL_DOWNLOAD\solr\INDICI-SOLR-FULL\SOLR_IDX**
 
-**..TODO_URL_DOWNLOAD\database\DB-FULL **
+**..TODO_URL_DOWNLOAD\database\DB-FULL**
 
 
 
