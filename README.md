@@ -41,12 +41,16 @@ Per procedere alla corretta installazione dei moduli del presente repository è 
 
 Di seguito la dipendenza nel pom.xml del modulo **sti-service**
 
-​	<parent>
-​		<groupId>edu.mayo.cts2.framework</groupId>
-​		<artifactId>cts2-base-service-plugin</artifactId>
-​		<version>1.2.0.FINAL</version>
-​		<relativePath>../cts2-framework-1.2.0.FINAL/cts2-base-service-plugin/pom.xml</relativePath>
-​	</parent>
+
+
+```xml
+	<parent>
+		<groupId>edu.mayo.cts2.framework</groupId>
+		<artifactId>cts2-base-service-plugin</artifactId>
+		<version>1.2.0.FINAL</version>
+		<relativePath>../cts2-framework-1.2.0.FINAL/cts2-base-service-plugin/pom.xml</relativePath>
+	</parent>
+```
 
 
 
