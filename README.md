@@ -165,7 +165,7 @@ A questo punto si considera un ambiente configurato e con il framework cts2 corr
 Per la build  comandi da dare sono i seguenti (scaricare i sorgenti, entrare nella folder del progetto e lanciare il comando maven per generale la build)
 
 ```sh
-git clone https://...
+git clone https://github.com/iit-rende/sti-service.git
 cd sti-service
 mvn clean install
 ```
