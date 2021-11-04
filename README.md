@@ -32,36 +32,36 @@ Per l'installazione degli applicativi si demanda alla documentazione ufficiale
 
 - solr-6.3.0 [https://archive.apache.org/dist/lucene/solr/]
 
-- sti-cts2-framework-1.2.0.FINAL [https://github.com/iit-rende/sti-cts2-framework] 
+- sti-cts2-framework [https://github.com/iit-rende/sti-cts2-framework] 
 
   
 
 ## Installazione 
-Per procedere alla corretta installazione dei moduli del presente repository è necessario scaricare e configurare prima i repository [**sti-cts2-framework-1.2.0.FINAL** e **sti-service**] ed è importante che i moduli stiano nella stessa directory in quanto il presente modulo dipende dal framework.
+Per procedere alla corretta installazione dei moduli del presente repository è necessario scaricare e configurare prima i repository [**sti-cts2-framework** e **sti-service**] ed è importante che i moduli stiano nella stessa directory in quanto il presente modulo dipende dal framework.
 
 Di seguito la dipendenza nel pom.xml del modulo **sti-service**
 
-
-
 ```xml
-	<parent>
+<parent>
 		<groupId>edu.mayo.cts2.framework</groupId>
 		<artifactId>cts2-base-service-plugin</artifactId>
 		<version>1.2.0.FINAL</version>
 		<relativePath>../cts2-framework-1.2.0.FINAL/cts2-base-service-plugin/pom.xml</relativePath>
-	</parent>
+</parent>
 ```
 
 
 
 Per l'installazione degli applicativi [AlmaLinuxOS, JDK 1.8, Postgres 9.6, liferay-portal-6.2-ce-ga6,solr-6.3.0] si rimanda alla documentazione ufficiale.
-Per quanto riguarda [framework cts2] l'installazione è descritta nei repository di riferimento.
+Per quanto riguarda [cts2 framework] l'installazione è descritta nei repository di riferimento.
 
 
 
 ## Configurazione Ambiente
 
-Per il corretto funzionamento del modulo è necessario creare i DB e avviare solr. Nel progetto è presente una folder **".../sti-service/extra"**
+Per il corretto funzionamento del modulo è necessario creare i DB e avviare solr. Nel progetto è presente una cartella  "**.../sti-service/extra**" dove sono presenti alcune risorse che vedremo più avanti.
+
+Per quanto riguarda il DB è necessario creare 2 schema, sti_service e sti_import.
 
 #### DB
 
@@ -71,7 +71,7 @@ Schema DB
 
 
 
-Dalla URL **..TODO_URL_DOWNLOAD\database\DB-DATI-BASE **, sono presenti gli script per la generazione dei 2 schema e il popolamento dei dati relativi alle codifiche di base (**LOINC; ATC; AIC; ICD9-CM**) gestite dal sistema. 
+Dalla URL **..TODO_URL_DOWNLOAD\database\DB-DATI-BASE **, è possibile scaricare gli script per la generazione dei 2 schema e il popolamento dei dati relativi ~~alle ~~ai sistemi di codifica di base gestiti dal sistema, ovvero quelli indicati dal DPCM n.178/2015 sul Fascicolo Sanitario Elettronico  (**LOINC; ATC; AIC; ICD9-CM**) gestite dal sistema. 
 
 Con i seguenti comandi importiamo gli script nel DB postgres.
 
@@ -84,13 +84,11 @@ psql sti_import < sti_import.sql
 
 
 
-
-
 #### Solr
 
-Dopo aver scaricato solr bisogna aggiungere gli indici per gestire le codifiche. Nella folder **"..\sti-service\extra\solr\solr_conf\"** sono presenti definizioni degl'indici, quindi per ogni codifica sono definiti i file "schema.xml" e  "solrconfig.xml". 
+Dopo aver scaricato Solr bisogna aggiungere gli indici per gestire le codifiche. Nella cartella**"..\sti-service\extra\solr\solr_conf\"** sono presenti definizioni degl'indici, quindi per ogni codifica sono definiti i file "schema.xml" e  "solrconfig.xml". 
 
-Le definizioni degli indici vanno copiate dentro solr (in servizio non deve esser attivo) sotto la folder **"PATH_SOLR/Solr-6.3.0/server/solr\"**, successivamente vanno settate le prop e poi va avviato il servizio.
+Le definizioni degli indici vanno copiate dentro solr (in servizio non deve esser attivo) sotto la cartella **"PATH_SOLR\Solr-6.3.0\server\solr"**, successivamente vanno settate le prop e poi va avviato il servizio.
 
 
 
@@ -100,7 +98,7 @@ Le definizioni degli indici vanno copiate dentro solr (in servizio non deve esse
 
 
 
-Successivamente bisogna editare il file "**solr-6.3.0/bin/solr.in.sh**" definendo le proprietà "sti.index.location.**NOME_INDICE**" utilizzate nei file ../solrconfig.xml dei rispettivi indici per indicare la folder di destinazione dei dati. Di seguito un esempio di configurazione
+Successivamente bisogna editare il file "**solr-6.3.0/bin/solr.in.sh**" definendo le proprietà "sti.index.location.**NOME_INDICE**" utilizzate nei file ../solrconfig.xml dei rispettivi indici per indicare la cartella di destinazione dei dati. Di seguito un esempio di configurazione
 
 
 
@@ -132,15 +130,13 @@ Dalla URL **..TODO_URL_DOWNLOAD\solr\INDICI-SOLR-DATI-BASE\SOLR_IDX"** è presen
 
 Il download del DB e degli indici SOLR aggiornati con tutte le codifiche è disponibile alle seguenti URL
 
-
-
 **..TODO_URL_DOWNLOAD\solr\INDICI-SOLR-FULL\SOLR_IDX**
 
 **..TODO_URL_DOWNLOAD\database\DB-FULL**
 
 
 
-ora si può avviare SOLR
+A questo punto si può avviare Solr:
 
 ```
 /PATH_SOLR/solr-6.3.0/bin/solr stop
@@ -161,8 +157,8 @@ Se tutto è andato bene dovremo accedere alla console di solr all'indirizzo (htt
 ## Build
 Per la build del modulo è necessario scaricare e installare - Maven 3.6.3 [https://maven.apache.org/docs/3.6.3/release-notes.html] o superiore
 
-A questo punto si considera un ambiente configurato e con il framework cts2 correttamente importato come dipendenza e deployato sotto Liferay come descritto nel repository  [https://github.com/iit-rende/sti-cts2-framework] 
-Per la build  comandi da dare sono i seguenti (scaricare i sorgenti, entrare nella folder del progetto e lanciare il comando maven per generale la build)
+A questo punto si considera un ambiente configurato e con il framework cts2 correttamente importato come dipendenza e distribuito sotto Liferay come descritto nel repository  [https://github.com/iit-rende/sti-cts2-framework] 
+Per la build  comandi da dare sono i seguenti
 
 ```sh
 git clone https://github.com/iit-rende/sti-service.git
@@ -174,11 +170,9 @@ mvn clean install
 
 ## Deploy
 
-Una volta buildato i modulo verrà prodotto un jar da caricare nella console web di cts2.
+Una volta eseguita la build dei moduli verrà prodotto un jar da caricare nella console web di cts2.
 
-Se l'ambiente è correttamente configurato e il framework cts2 è deployato sotto Liferay si potrà accedere alla console alla seguente url
-
-http://HOST/cts2framework/ cliccando su Admin Console, caricando il file precedentemente buildato e  confermando il caricamento.
+Se l'ambiente è correttamente configurato ed è stato effettuato il deployment del framework cts2 sotto Liferay, si potrà accedere alla console tramite il seguente url: http://HOST/cts2framework/  cliccando su Admin Console, successivamente si dovrà caricare il file per il quale è stata precedentemente eseguita la build per poi confermare il caricamento.
 
 N.B. in caso di conferma spuntare "Start Bundle"
 
@@ -206,13 +200,12 @@ Conferma
 
 
 
-
-
 Per ulteriori approfondimenti si rimanda alla documentazione di cts2 framework
 
 
 
 ## Copyright ©
+
  [TODO]
 
 ## Maintainer
