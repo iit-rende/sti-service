@@ -71,7 +71,7 @@ Schema DB
 
 
 
-Dalla URL **..TODO_URL_DOWNLOAD\database\DB-DATI-BASE **, è possibile scaricare gli script per la generazione dei 2 schema e il popolamento dei dati relativi ~~alle ~~ai sistemi di codifica di base gestiti dal sistema, ovvero quelli indicati dal DPCM n.178/2015 sul Fascicolo Sanitario Elettronico  (**LOINC; ATC; AIC; ICD9-CM**) gestite dal sistema. 
+Dalla URL **..TODO_URL_DOWNLOAD\database\DB-DATI-BASE **, è possibile scaricare gli script per la generazione dei 2 schema e il popolamento dei dati relativi ai sistemi di codifica di base gestiti dal sistema, ovvero quelli indicati dal DPCM n.178/2015 sul Fascicolo Sanitario Elettronico  (**LOINC; ATC; AIC; ICD9-CM**). 
 
 Con i seguenti comandi importiamo gli script nel DB postgres.
 
