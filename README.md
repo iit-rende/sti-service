@@ -126,13 +126,13 @@ Di seguito un esempio di come vengono usate le prop precedentemente definite. I 
 
 
 
-Dalla URL **..TODO_URL_DOWNLOAD\solr\INDICI-SOLR-DATI-BASE\SOLR_IDX"** è presente un dump degli indici contenente i dati delle codifiche di base (**LOINC; ATC; AIC; ICD9-CM**) relativo al dump del DB **..TODO_URL_DOWNLOAD\database\DB-DATI-BASE**. Quindi i caso di caricamento del DB con i dati di base bisogna prendere anche gli indici SOLR contenenti i dati in modo che all'avvio dell'applicazione sia tutto correttamente funzionante.
+Dalla URL http://cosenza.iit.cnr.it/repo/sti/dati_base/INDEX_SOLR_DATI_BASE.zip è presente un dump degli indici contenente i dati delle codifiche di base (**LOINC; ATC; AIC; ICD9-CM**) relativo al dump del DB  http://cosenza.iit.cnr.it/repo/sti/dati_base/dump_dati_base.zip. Quindi i caso di caricamento del DB con i dati di base bisogna prendere anche gli indici SOLR contenenti i dati in modo che all'avvio dell'applicazione sia tutto correttamente funzionante.
 
-Il download del DB e degli indici SOLR aggiornati con tutte le codifiche è disponibile alle seguenti URL
+Il download del DB e degli indici SOLR aggiornati con tutte le codifiche **sarà disponibile** alle seguenti URL
 
-**..TODO_URL_DOWNLOAD\solr\INDICI-SOLR-FULL\SOLR_IDX**
+ http://cosenza.iit.cnr.it/repo/sti/dati_produzione/INDEX_SOLR_DATI_PRODUZIONE.zip
 
-**..TODO_URL_DOWNLOAD\database\DB-FULL**
+ http://cosenza.iit.cnr.it/repo/sti/dati_produzione/dump_dati_produzione.zip
 
 
 
