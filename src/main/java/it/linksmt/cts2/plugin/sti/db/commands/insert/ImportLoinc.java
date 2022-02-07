@@ -20,6 +20,7 @@ import it.linksmt.cts2.plugin.sti.importer.ImportException;
 import it.linksmt.cts2.plugin.sti.importer.loinc.LoincFields;
 import it.linksmt.cts2.plugin.sti.service.exception.StiAuthorizationException;
 import it.linksmt.cts2.plugin.sti.service.exception.StiHibernateException;
+import it.linksmt.cts2.plugin.sti.service.util.StiConstants;
 import it.linksmt.cts2.plugin.sti.service.util.StiServiceUtil;
 
 public class ImportLoinc extends HibernateCommand {
@@ -140,7 +141,10 @@ public class ImportLoinc extends HibernateCommand {
 				session, csVers, code, term,
 				term_it, null, description, null,
 				effectiveDate, true, null,
-				SKIP_FIELDS, loincData, null, null, null);
+				SKIP_FIELDS, loincData, null, StiConstants.LANG_IT, StiConstants.LANG_EN);
+		
+		
+		
 
 		numInsert++;
 		if ((numInsert % ImportCsUtil.CHUNK_SIZE_IMPORT) == 0) {
