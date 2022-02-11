@@ -136,14 +136,12 @@ public class ImportLoinc extends HibernateCommand {
 		if (existConc != null) {
 			throw new ImportException("Il codice loinc risulta già presente: " + code);
 		}
-
+		
 		CodeSystemEntityVersion csEntityVers = ImportCsUtil.insertEntity(
 				session, csVers, code, term,
 				term_it, null, description, null,
 				effectiveDate, true, null,
-				SKIP_FIELDS, loincData, null, StiConstants.LANG_IT, StiConstants.LANG_EN);
-		
-		
+				SKIP_FIELDS, loincData, null, StiConstants.LANG_EN, StiConstants.LANG_IT);
 		
 
 		numInsert++;
