@@ -206,12 +206,25 @@ Per ulteriori approfondimenti si rimanda alla documentazione di cts2 framework
 
 ## Copyright ©
 
- [TODO]
+Istituto di Informatica e Telematica - Consiglio Nazionale delle Ricerche (IIT-CNR)
 
 ## Maintainer
- [TODO]
+IIT-CNR
+
+Contatti
+
+Elena Cardillo 
+
+email: [elena.cardillo@iit.cnr.it](mailto:elena.cardillo@iit.cnr.it)
+
+Antonio Stumpo
+
+email: [antonio.stumpo@cnr.it](mailto:antonio.stumpo@cnr.it)
+
+Maria Taverniti
+
+email: [maria.taverniti@cnr.it](mailto:maria.taverniti@cnr.it)
 
 
 ## License 
- [TODO]
-**http://www.apache.org/licenses/LICENSE-2.0**
+STI è concesso in licenza GPL-3.0 o seguenti https://www.gnu.org/licenses/gpl-3.0.html
