@@ -213,19 +213,13 @@ Istituto di Informatica e Telematica - Consiglio Nazionale delle Ricerche (IIT-C
 
 IIT-CNR
 
-Contatti
+**Contatti**
 
-Elena Cardillo 
+Elena Cardillo - email: [elena.cardillo@iit.cnr.it](mailto:elena.cardillo@iit.cnr.it)
 
-email: [elena.cardillo@iit.cnr.it](mailto:elena.cardillo@iit.cnr.it)
+Antonio Stumpo -email: [antonio.stumpo@cnr.it](mailto:antonio.stumpo@cnr.it)
 
-Antonio Stumpo
-
-email: [antonio.stumpo@cnr.it](mailto:antonio.stumpo@cnr.it)
-
-Maria Taverniti
-
-email: [maria.taverniti@cnr.it](mailto:maria.taverniti@cnr.it)
+Maria Taverniti - email: [maria.taverniti@cnr.it](mailto:maria.taverniti@cnr.it)
 
 
 ## License 
